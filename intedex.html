@@ -1,0 +1,119 @@
+<link rel="import" href="../core-scaffold/core-scaffold.html">
+<link rel="import" href="../core-header-panel/core-header-panel.html">
+<link rel="import" href="../core-menu/core-menu.html">
+<link rel="import" href="../core-item/core-item.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+<link rel="import" href="../core-input/core-input.html">
+<link rel="import" href="../speech-mic/speech-mic.html">
+<link rel="import" href="../core-menu/core-submenu.html">
+<link rel="import" href="../google-map/google-map-search.html">
+<link rel="import" href="../google-map/google-map.html">
+
+<polymer-element name="my-element">
+
+  <template>
+    <style>    
+      :host {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+      }
+      #core_scaffold {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+      }
+      #core_header_panel {
+        background-color: rgb(255, 255, 255);
+      }
+      #core_toolbar {
+        color: rgb(255, 255, 255);
+        background-color: rgb(79, 125, 201);
+      }
+      #core_menu {
+        font-size: 16px;
+      }
+      #google_map {
+        width: 98%;
+        height: 100%;
+        display: block;
+        left: 0px;
+        top: 0px;
+        position: absolute;
+        padding: 10px;
+      }
+      #input {
+        padding: 10px;
+        left: 20px;
+        top: 10px;
+        position: absolute;
+        width: 80%;
+        background-color: rgb(255, 255, 255);
+      }
+      #google_map_search {
+        left: 690px;
+        top: 210px;
+        position: absolute;
+      }
+      #speech_mic {
+        left: 198px;
+        top: 10px;
+        position: absolute;
+      }
+      #core_selector {
+        width: 100%;
+        height: 50px;
+        left: 100px;
+        top: 270px;
+        position: absolute;
+      }
+    </style>
+    <core-scaffold id="core_scaffold">
+      <core-header-panel mode="seamed" id="core_header_panel" navigation flex>
+        <core-toolbar id="core_toolbar">
+          <input committedvalue="La Capitale GITA, Lomé" id="input" value="{{ $.speech_mic.transcript }}" placeholder="Chercher..." is="core-input">
+          <speech-mic transcript="La Capitale GITA, Lomé" completetranscript="I hope" language="fr-FR" id="speech_mic"></speech-mic>
+        </core-toolbar>
+        <core-menu valueattr="label" id="core_menu" theme="core-light-theme">
+          <core-item id="core_item" icon="cloud" on-tap="{{ roadMapview }}" label="Road Map" horizontal center layout></core-item>
+          <core-item id="core_item1" icon="credit-card" on-tap="{{ terrainview }}" label="Terrain" horizontal center layout></core-item>
+          <core-item id="core_item2" icon="archive" on-tap="{{ hybrid }}" label="Hybrid" center horizontal layout></core-item>
+        </core-menu>
+      </core-header-panel>
+      <div id="div" tool>
+        <h1>
+        </h1>
+        <h1>
+          <a id="a" href="http://www.lacapitalegita.net/">Restaurant La Capitale GITA </a>
+        </h1>
+      </div>
+      <google-map-search map="{{ $.google_map.map }}" query="{{ $.input.value }}" id="lc_menu_search"></google-map-search>
+      <google-map latitude="{{ $.lc_menu_search.result.latitude }}" longitude="{{ $.lc_menu_search.result.longitude }}" zoom="16" showcentermarker id="google_map">
+      </google-map>
+    </core-scaffold>
+  </template>
+
+  <script>
+
+    Polymer({
+      roadMapview: function (){
+        this.$.google_map.mapType = "roadmap";
+      },
+      hybridview: function (){
+        this.$.google_map.mapType = "hybrid";
+      },
+      terrainview: function (){
+        this.$.google_map.mapType = "terrain";
+      },
+      result: 37.7358423591854
+    });
+
+  </script>
+
+</polymer-element>
